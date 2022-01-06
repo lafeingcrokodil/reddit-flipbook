@@ -1,2 +1,6 @@
-# reddit-flipbook
-Desktop web app that allows for flipping through Reddit posts
+Reddit Flipbook
+===============
+
+One feature that appeals to me in the mobile Reddit app is that one can simply swipe to go to the next Reddit post. On the official desktop website, however, there doesn't seem to be a way to navigate to the next post with a single action (button click or otherwise). As far as I can tell, one either closes a modal and opens another, or one opens posts in separate tabs.
+
+I imagine that there could be other existing desktop apps for browsing Reddit out there that already solve this usability problem, but it seemed like a fun wheel to try my own hand at reinventing.
