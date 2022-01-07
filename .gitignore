@@ -1,0 +1,7 @@
+.*
+!.env-template
+!.eslintrc.json
+!.gitignore
+dist/
+node_modules/
+npm-debug.log*
