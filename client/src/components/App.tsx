@@ -1,8 +1,10 @@
 import React from 'react';
 
 import './App.css';
+import * as models from '../models';
 import Auth from './Auth';
 import Dialog from './Dialog';
+import Post from './Post';
 
 type APIError = { name: string, message: string, [key: string]: any };
 
@@ -39,7 +41,12 @@ class App extends React.Component {
       return <Dialog title={this.state.error.name} msg={this.state.error.message} />;
     }
     if (this.state.rawData) {
-      return <pre><code>{JSON.stringify(this.state.rawData, null, '  ')}</code></pre>;
+      const post = models.getFirstPost(this.state.rawData[0]);
+      return (
+        <div className='main'>
+          <Post data={post} />
+        </div>
+      );
     }
     const msg = 'It\'s taking a while to load the data, but it should appear shortly.';
     return <Dialog msg={msg} />;

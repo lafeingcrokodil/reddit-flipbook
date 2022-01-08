@@ -6,6 +6,20 @@
   color: beige;
 }
 
+.history {
+  font-size: small;
+  color: #555;
+}
+
+.left {
+  float: left;
+}
+
+.main {
+  max-width: 500px;
+  margin: 50px auto;
+}
+
 .modal {
   position: fixed;
   z-index: 1;
@@ -30,4 +44,10 @@
   background-color: beige;
   text-align: center;
   padding: 10px;
+}
+
+.round {
+  margin: 5px;
+  clip-path: circle(50%);
+  vertical-align: middle;
 }

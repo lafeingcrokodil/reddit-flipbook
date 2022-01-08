@@ -1,0 +1,14 @@
+h1 {
+  font-size: larger;
+}
+
+h2 {
+  background-color: beige;
+  font-size: medium;
+  color: #555;
+  padding: 10px;
+}
+
+.post-header {
+  margin-bottom: 7px;
+}
