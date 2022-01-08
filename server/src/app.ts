@@ -1,7 +1,6 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { ErrorRequestHandler } from 'express';
-import createError from 'http-errors';
 import morgan from 'morgan';
 import path from 'path';
 
@@ -20,9 +19,9 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(authMiddleware);
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
+// catch 404 and redirect to home page
+app.use((req, res) => {
+  res.redirect('/');
 });
 
 // We intentionally include the `next` parameter, even though it's never read,

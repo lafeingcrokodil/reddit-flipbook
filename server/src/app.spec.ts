@@ -34,18 +34,15 @@ describe('GET /nonsense', () => {
       .expect(401, done);
   });
 
-  it('responds with not found error otherwise', done => {
-    const expectedBody = {
-      error: {
-        name: 'NotFoundError',
-        message: 'Not Found'
-      }
-    };
+  it('redirects to / otherwise', done => {
     request(app)
       .get('/nonsense')
       .set('Cookie', ['flipbook=j:{"access":"foo","refresh":"bar"}'])
-      .expect('Content-Type', /json/)
-      .expect(404, expectedBody, done);
+      .expect(res => {
+        assert.deepEqual(res.text, 'Found. Redirecting to /');
+      })
+      .expect('Content-Type', /text/)
+      .expect(302, done);
   });
 });
 
