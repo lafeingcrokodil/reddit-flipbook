@@ -2,9 +2,6 @@ import { RequestHandler } from 'express';
 import { URL } from 'url';
 
 import * as env from '../env';
-import Logger from '../logger';
-
-const logger = Logger('flipbook:authorization');
 
 const authorize: RequestHandler = (req, res, next) => {
   const cookie = req.cookies[env.get('COOKIE_NAME')];
@@ -16,13 +13,12 @@ const authorize: RequestHandler = (req, res, next) => {
     authURL.searchParams.append('redirect_uri', env.get('REDDIT_REDIRECT_URI'));
     authURL.searchParams.append('duration', 'permanent');
     authURL.searchParams.append('scope', 'read');
-    const err = {
-      name: 'AuthorizationError',
-      message: 'Authorization is needed to access the Reddit API'
-    };
-    logger.error(err);
-    res.status(401);
-    res.json({ authURL: authURL.toString(), error: err });
+    next({
+      status: 401,
+      name: 'UnauthorizedError',
+      message: 'Authorization code is needed to access the Reddit API',
+      authURL: authURL.toString()
+    });
   } else {
     next();
   }

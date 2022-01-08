@@ -17,41 +17,86 @@ describe('GET /', () => {
 });
 
 describe('GET /nonsense', () => {
-  it('responds with authorization error if cookie is missing', done => {
-    request(app)
-      .get('/nonsense')
-      .expect('Content-Type', /json/)
-      .expect(isAuthorizationError)
-      .expect(401, done);
-  });
-
-  it('responds with authorization error if cookie is invalid', done => {
-    request(app)
-      .get('/nonsense')
-      .set('Cookie', ['flipbook=nonsense'])
-      .expect('Content-Type', /json/)
-      .expect(isAuthorizationError)
-      .expect(401, done);
-  });
-
-  it('redirects to / otherwise', done => {
+  it('redirects to / if valid cookie is set', done => {
     request(app)
       .get('/nonsense')
       .set('Cookie', ['flipbook=j:{"access":"foo","refresh":"bar"}'])
+      .expect('Content-Type', /text/)
       .expect(res => {
         assert.deepEqual(res.text, 'Found. Redirecting to /');
       })
-      .expect('Content-Type', /text/)
       .expect(302, done);
   });
 });
 
-function isAuthorizationError(res: request.Response) {
+describe('GET /posts', () => {
+  it('responds with unauthorized error if cookie is missing', done => {
+    request(app)
+      .get('/posts')
+      .expect('Content-Type', /json/)
+      .expect(isUnauthorizedError)
+      .expect(401, done);
+  });
+
+  it('responds with unauthorized error if cookie is invalid', done => {
+    request(app)
+      .get('/posts')
+      .set('Cookie', ['flipbook=nonsense'])
+      .expect('Content-Type', /json/)
+      .expect(isUnauthorizedError)
+      .expect(401, done);
+  });
+
+  it('responds successfully with empty data object if cookie is set', done => {
+    request(app)
+      .get('/posts')
+      .set('Cookie', ['flipbook=j:{"access":"foo","refresh":"bar"}'])
+      .expect('Content-Type', /json/)
+      .expect(200, { data: {} }, done);
+  });
+});
+
+describe('GET /redirect', () => {
+  it('responds with bad request error if query parameter is missing', done => {
+    const expectedBody = {
+      error: {
+        status: 400,
+        name: 'BadRequestError',
+        message: 'Missing or invalid query parameter "code"'
+      }
+    };
+    request(app)
+      .get('/redirect')
+      .expect('Content-Type', /json/)
+      .expect(400, expectedBody, done);
+  });
+
+  it('responds with unauthorized error if code is invalid', done => {
+    const expectedBody = {
+      error: {
+        status: 401,
+        name: 'UnauthorizedError',
+        message: 'invalid_grant'
+      }
+    };
+    request(app)
+      .get('/redirect')
+      .query({ code: 'nonsense' })
+      .expect('Content-Type', /json/)
+      .expect(401, expectedBody, done);
+  });
+
+  // Not sure how to test this, because it's not clear to me how to
+  // automatically get an up-to-date authorization code.
+  it('sets cookie and redirects to / otherwise');
+});
+
+function isUnauthorizedError(res: request.Response) {
   assert.isObject(res.body);
-  assert.hasAllKeys(res.body, ['authURL', 'error']);
-  assert.isString(res.body.authURL);
-  assert.match(res.body.authURL, /^http/);
+  assert.hasAllKeys(res.body, ['error']);
   assert.isObject(res.body.error);
-  assert.hasAllKeys(res.body.error, ['name', 'message']);
-  assert.deepEqual(res.body.error.name, 'AuthorizationError');
+  assert.hasAllKeys(res.body.error, ['status', 'name', 'message', 'authURL']);
+  assert.deepEqual(res.body.error.name, 'UnauthorizedError');
+  assert.isString(res.body.error.authURL);
+  assert.match(res.body.error.authURL, /^http/);
 }

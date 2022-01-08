@@ -16,7 +16,10 @@ You should then be able to start the server by running `npm start`.
 
 ## Endpoints
 
-* `GET /` - Returns HTML code for home page.
+* `GET /` - Returns HTML code for the home page.
+* `GET /posts` - Returns an empty data object.
+* `GET /redirect` - Used as the OAuth2 redirect URI. Fetches a Reddit access token and refresh token, saves both in a browser cookie, and redirects to `/`.
+  * `code` - Authorization code that can be used to fetch tokens.
 
 ## Development
 

@@ -6,6 +6,8 @@ import path from 'path';
 
 import Logger from './logger';
 import authMiddleware from './middleware/auth';
+import postsRouter from './routes/posts';
+import redirectRouter from './routes/redirect';
 
 const app = express();
 const logger = Logger('flipbook:app');
@@ -17,7 +19,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'dist')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
+app.use('/redirect', redirectRouter);
 app.use(authMiddleware);
+app.use('/posts', postsRouter);
 
 // catch 404 and redirect to home page
 app.use((req, res) => {
@@ -30,7 +34,7 @@ app.use((req, res) => {
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   logger.error(err);
   res.status(err.status || 500);
-  res.json({ error: { name: err.name, message: err.message } });
+  res.json({ error: err });
 };
 app.use(errorHandler);
 
