@@ -6,7 +6,6 @@ import morgan from 'morgan';
 import path from 'path';
 
 import Logger from './logger';
-import indexRouter from './routes/index';
 
 const app = express();
 const logger = Logger('flipbook:app');
@@ -17,8 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'dist')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
-
-app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
