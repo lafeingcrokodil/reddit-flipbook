@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import path from 'path';
 
 import Logger from './logger';
+import authMiddleware from './middleware/auth';
 
 const app = express();
 const logger = Logger('flipbook:app');
@@ -16,6 +17,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '..', '..', 'client', 'dist')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.use(authMiddleware);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
