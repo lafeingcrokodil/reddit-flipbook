@@ -17,3 +17,12 @@ You should then be able to start the server by running `npm start`.
 ## Endpoints
 
 * `GET /` - Returns HTML code for home page.
+
+## Development
+
+1. Open two terminals:
+   * Client: `cd client && npm run watch`
+   * Server: `cd server && npm run start:watch`
+1. Open http://localhost:3000 in your browser, adjusting the port if you configured a different one.
+
+Any changes that you make to `.ts` or `.tsx` files in either the client or server directories should then be picked up automatically. Note, however, that for client changes the building may take several seconds, and you'll likely need to reload the page in your browser.

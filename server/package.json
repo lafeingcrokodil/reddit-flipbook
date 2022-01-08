@@ -4,6 +4,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "start": "tsc && node dist/server.js",
+    "start:watch": "nodemon",
     "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "dependencies": {
@@ -27,8 +28,20 @@
     "@typescript-eslint/parser": "^5.8.1",
     "eslint": "^8.6.0",
     "mocha": "^9.1.3",
+    "nodemon": "^2.0.15",
     "supertest": "^6.1.6",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.spec.ts",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "npm start",
+    "ext": "ts"
   }
 }
