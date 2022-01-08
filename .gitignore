@@ -1,4 +1,5 @@
 .*
+!.babelrc
 !.env-template
 !.eslintrc.json
 !.gitignore

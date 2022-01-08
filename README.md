@@ -16,4 +16,4 @@ You should then be able to start the server by running `npm start`.
 
 ## Endpoints
 
-* `GET /` - Returns `{ "data": "index" }`.
+* `GET /` - Returns HTML code for home page.
