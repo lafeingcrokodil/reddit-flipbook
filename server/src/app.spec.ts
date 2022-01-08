@@ -47,13 +47,29 @@ describe('GET /posts', () => {
       .expect(401, done);
   });
 
-  it('responds successfully with empty data object if cookie is set', done => {
+  it('responds with bad request error if refresh token is invalid', done => {
+    const expectedBody = {
+      error: {
+        status: 400,
+        name: 'BadRequestError',
+        message: 'Invalid refresh token'
+      }
+    };
     request(app)
       .get('/posts')
       .set('Cookie', ['flipbook=j:{"access":"foo","refresh":"bar"}'])
       .expect('Content-Type', /json/)
-      .expect(200, { data: {} }, done);
+      .expect(400, expectedBody, done);
   });
+
+  // Not sure how to test this, because it's not clear to me how to
+  // automatically get up-to-date tokens.
+  it('responds successfully with data object if cookie is set');
+});
+
+describe('GET /posts/:id', () => {
+  // Not sure how to test this for the same reason as above.
+  it('responds successfully with data object if cookie is set');
 });
 
 describe('GET /redirect', () => {
@@ -86,7 +102,7 @@ describe('GET /redirect', () => {
       .expect(401, expectedBody, done);
   });
 
-  // Not sure how to test this, because it's not clear to me how to
+  // Not sure how to test this either, because it's not clear to me how to
   // automatically get an up-to-date authorization code.
   it('sets cookie and redirects to / otherwise');
 });

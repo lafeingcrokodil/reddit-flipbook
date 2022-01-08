@@ -1,7 +1,6 @@
 import express from 'express';
 
 import * as api from '../api';
-import * as env from '../env';
 
 const router = express.Router();
 
@@ -14,12 +13,8 @@ router.get('/', async (req, res, next) => {
         message: 'Missing or invalid query parameter "code"'
       };
     }
-    const tokens = await api.getTokens(req.query.code);
-    res.cookie(
-      env.get('COOKIE_NAME'),
-      tokens,
-      { httpOnly: true, secure: true }
-    );
+    const tokens = await api.getInitialTokens(req.query.code);
+    api.registerNewTokens(res)(tokens);
     res.redirect('/');
   } catch (err) {
     next(err);

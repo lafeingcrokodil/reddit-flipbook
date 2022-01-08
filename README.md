@@ -17,7 +17,8 @@ You should then be able to start the server by running `npm start`.
 ## Endpoints
 
 * `GET /` - Returns HTML code for the home page.
-* `GET /posts` - Returns an empty data object.
+* `GET /posts` - Gets the comment tree for the top post in /r/popular/hot, as well as the contents of the post itself.
+* `GET /posts/:id` - Gets the comment tree and post contents for the post with the specified ID36 (unique ID in base 36).
 * `GET /redirect` - Used as the OAuth2 redirect URI. Fetches a Reddit access token and refresh token, saves both in a browser cookie, and redirects to `/`.
   * `code` - Authorization code that can be used to fetch tokens.
 
