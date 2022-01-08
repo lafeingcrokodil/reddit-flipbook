@@ -7,6 +7,11 @@ import request from 'supertest';
 
 import app from './app';
 
+// Note that several of the tests are pending, because I haven't yet figured
+// out a good way to automatically get up-to-date and valid authorization
+// codes, access tokens and refresh tokens, and I'm not sure how else to
+// meaningfully test the routes.
+
 describe('GET /', () => {
   it('responds successfully with HTML code', done => {
     request(app)
@@ -62,14 +67,15 @@ describe('GET /posts', () => {
       .expect(400, expectedBody, done);
   });
 
-  // Not sure how to test this, because it's not clear to me how to
-  // automatically get up-to-date tokens.
   it('responds successfully with data object if cookie is set');
 });
 
 describe('GET /posts/:id', () => {
-  // Not sure how to test this for the same reason as above.
   it('responds successfully with data object if cookie is set');
+});
+
+describe('GET /posts/:name/next', () => {
+  it('redirects to some /post/:id if cookie is set');
 });
 
 describe('GET /redirect', () => {
@@ -102,8 +108,6 @@ describe('GET /redirect', () => {
       .expect(401, expectedBody, done);
   });
 
-  // Not sure how to test this either, because it's not clear to me how to
-  // automatically get an up-to-date authorization code.
   it('sets cookie and redirects to / otherwise');
 });
 

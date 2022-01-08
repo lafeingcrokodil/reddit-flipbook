@@ -1,0 +1,12 @@
+.nav {
+  overflow: hidden;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.nav-right {
+  float: right;
+}

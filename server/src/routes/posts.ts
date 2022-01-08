@@ -34,4 +34,19 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+router.get('/:name/next', async (req, res, next) => {
+  try {
+    const popularRes = await api.get(
+      '/r/popular/hot',
+      req.cookies[env.get('COOKIE_NAME')],
+      { params: { after: req.params.name, limit: 1 } },
+      api.registerNewTokens(res)
+    );
+    const id = popularRes.data.data.children[0].data.id;
+    res.redirect(`/posts/${id}`);
+  } catch (err) {
+    next(err);
+  }
+});
+
 export = router;
