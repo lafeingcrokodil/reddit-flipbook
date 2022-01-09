@@ -30,7 +30,8 @@ router.get('/:id', async (req, res, next) => {
       api.registerNewTokens(res)
     );
     const post = await models.getFirstPost(commentRes.data[0]);
-    res.json({ data: { post } });
+    const replies = models.getInitialReplies(commentRes.data[1]);
+    res.json({ data: { post, replies } });
   } catch (err) {
     next(err);
   }

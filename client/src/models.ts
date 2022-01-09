@@ -8,6 +8,24 @@ export interface Award {
   iconURL: string;
 }
 
+export interface Comment {
+  kind: string;
+  id: string;
+  author: User;
+  awards: Award[];
+  html: string;
+  postName: string;
+  replies: Replies;
+  timestamp: Date;
+}
+
+export interface MoreComments {
+  kind: string;
+  id: string;
+  ids: string[];
+  count: number;
+}
+
 export interface Post {
   name: string;
   author: User;
@@ -20,6 +38,8 @@ export interface Post {
   title: string;
   url?: string;
 }
+
+export type Replies = (Comment | MoreComments)[];
 
 export interface Subreddit {
   name: string;

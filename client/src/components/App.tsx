@@ -6,14 +6,16 @@ import Auth from './Auth';
 import Dialog from './Dialog';
 import NavBar from './NavBar';
 import Post from './Post';
+import Replies from './Replies';
 
-type APIError = { name: string, message: string, [key: string]: any };
+type AppError = { name: string, message: string, [key: string]: any };
 
 class App extends React.Component {
   state: {
-    error?: APIError;
+    error?: AppError;
     data?: {
-      post?: models.Post;
+      post: models.Post;
+      replies: models.Replies;
     };
   };
 
@@ -32,8 +34,12 @@ class App extends React.Component {
         this.setState({ data: json.data });
       }
     } catch (err) {
-      this.setState({ error: err });
+      this.handleError(err);
     }
+  }
+
+  handleError(err: any) {
+    this.setState({ error: err });
   }
 
   async handleNext(postName: string) {
@@ -47,7 +53,7 @@ class App extends React.Component {
         this.setState({ data: json.data });
       }
     } catch (err) {
-      this.setState({ error: err });
+      this.handleError(err);
     }
   }
 
@@ -58,13 +64,18 @@ class App extends React.Component {
       }
       return <Dialog title={this.state.error.name} msg={this.state.error.message} />;
     }
-    if (this.state.data?.post) {
-      const post = this.state.data.post;
+    if (this.state.data) {
+      const { post, replies } = this.state.data;
       return (
         <div>
           <NavBar onClick={() => this.handleNext(post.name)} />
           <div className='main'>
             <Post data={post} />
+            <Replies
+              data={replies}
+              postName={post.name}
+              onError={this.handleError.bind(this)}
+            />
           </div>
         </div>
       );
