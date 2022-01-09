@@ -6,7 +6,7 @@ import * as models from '../models';
 
 interface Props {
   data: models.Replies;
-  onMoreClick: (parentName: string, commentIDs: string[]) => void;
+  onMoreClick: (id: string, commentIDs: string[]) => void;
 }
 
 function Replies(props: Props) {

@@ -9,7 +9,7 @@ export interface Award {
 }
 
 export interface Comment {
-  kind: string;
+  kind: 'Comment';
   id: string;
   author: User;
   awards: Award[];
@@ -20,11 +20,10 @@ export interface Comment {
 }
 
 export interface MoreComments {
-  kind: string;
+  kind: 'MoreComments';
   id: string;
   ids: string[];
   count: number;
-  parentName: string;
 }
 
 export interface Post {

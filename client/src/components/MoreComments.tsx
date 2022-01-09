@@ -5,7 +5,7 @@ import * as models from '../models';
 
 interface Props {
   data: models.MoreComments;
-  onMoreClick: (parentName: string, commentIDs: string[]) => void;
+  onMoreClick: (id: string, commentIDs: string[]) => void;
 }
 
 function MoreComments(props: Props) {
@@ -13,7 +13,7 @@ function MoreComments(props: Props) {
     <span
       key={props.data.id}
       className='link more-comments'
-      onClick={() => props.onMoreClick(props.data.parentName, props.data.ids)}
+      onClick={() => props.onMoreClick(props.data.id, props.data.ids)}
     >
       {props.data.count} more replies
     </span>

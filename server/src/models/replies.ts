@@ -5,7 +5,7 @@ import { User } from './user';
 export type Replies = (Comment | MoreComments)[];
 
 export interface Comment {
-  kind: string;
+  kind: 'Comment';
   id: string;
   author: User;
   awards: Award[];
@@ -16,11 +16,10 @@ export interface Comment {
 }
 
 export interface MoreComments {
-  kind: string;
+  kind: 'MoreComments';
   id: string;
   ids: string[];
   count: number;
-  parentName: string;
 }
 
 export function getInitialReplies(thing: Thing): Replies {
@@ -84,7 +83,6 @@ function getMoreComments(thing: Thing): MoreComments {
     kind: 'MoreComments',
     id: thing.data.id,
     ids: thing.data.children as string[],
-    count: thing.data.count,
-    parentName: thing.data.parent_id
+    count: thing.data.count
   };
 }

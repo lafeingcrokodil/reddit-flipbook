@@ -26,7 +26,7 @@ router.get('/:id', async (req, res, next) => {
     const commentRes = await api.get(
       `/comments/${req.params.id}`,
       req.cookies[env.get('COOKIE_NAME')],
-      { params: { depth: 2, limit: 10 } },
+      { params: { limit: 10 } },
       api.registerNewTokens(res)
     );
     const post = await models.getFirstPost(commentRes.data[0]);
@@ -46,7 +46,6 @@ router.get('/:name/morecomments', async (req, res, next) => {
         params: {
           api_type: 'json',
           children: req.query.children,
-          depth: 2,
           limit_children: true,
           link_id: req.params.name
         }

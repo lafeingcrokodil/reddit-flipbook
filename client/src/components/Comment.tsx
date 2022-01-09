@@ -9,7 +9,7 @@ import { sanitize, strip } from '../html';
 
 interface Props {
   data: models.Comment;
-  onMoreClick: (parentName: string, commentIDs: string[]) => void;
+  onMoreClick: (id: string, commentIDs: string[]) => void;
 }
 
 class Comment extends React.Component<Props> {
