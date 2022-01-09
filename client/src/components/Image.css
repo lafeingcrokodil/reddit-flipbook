@@ -1,0 +1,7 @@
+.preview-img {
+  display: block;
+  max-height: 400px;
+  max-width: 500px;
+  margin: 10px auto;
+  cursor: zoom-in;
+}

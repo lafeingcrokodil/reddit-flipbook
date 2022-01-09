@@ -3,6 +3,7 @@ import React from 'react';
 
 import './Post.css';
 import Awards from './Awards';
+import URL from './URL';
 import * as models from '../models';
 import { sanitize } from '../html';
 
@@ -20,7 +21,7 @@ function Post(props: { data: models.Post }) {
       </div>
       <Awards data={data.awards} />
       <h1>{data.title}</h1>
-      {data.url && <a href={data.url}>{data.url}</a>}
+      {data.url && <URL url={data.url} contentType={data.contentType} />}
       <div dangerouslySetInnerHTML={{__html: sanitize(data.html)}}></div>
       <h2>{data.commentCount} Comments</h2>
     </div>

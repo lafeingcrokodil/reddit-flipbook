@@ -12,7 +12,9 @@ type APIError = { name: string, message: string, [key: string]: any };
 class App extends React.Component {
   state: {
     error?: APIError;
-    rawData?: any;
+    data?: {
+      post?: models.Post;
+    };
   };
 
   constructor(props: never) {
@@ -27,7 +29,7 @@ class App extends React.Component {
       if (json.error) {
         throw json.error;
       } else if (json.data) {
-        this.setState({ rawData: json.data });
+        this.setState({ data: json.data });
       }
     } catch (err) {
       this.setState({ error: err });
@@ -42,7 +44,7 @@ class App extends React.Component {
       if (json.error) {
         throw json.error;
       } else if (json.data) {
-        this.setState({ rawData: json.data });
+        this.setState({ data: json.data });
       }
     } catch (err) {
       this.setState({ error: err });
@@ -56,8 +58,8 @@ class App extends React.Component {
       }
       return <Dialog title={this.state.error.name} msg={this.state.error.message} />;
     }
-    if (this.state.rawData) {
-      const post = models.getFirstPost(this.state.rawData[0]);
+    if (this.state.data?.post) {
+      const post = this.state.data.post;
       return (
         <div>
           <NavBar onClick={() => this.handleNext(post.name)} />

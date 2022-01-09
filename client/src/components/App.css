@@ -17,6 +17,19 @@ a:hover,
   color: beige;
 }
 
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: beige;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
 .highlight {
   background-color: #FF4500;
 }
@@ -51,6 +64,12 @@ a:hover,
   height: 100%;
   overflow: auto;
   background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
 }
 
 .modal-icon {

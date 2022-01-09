@@ -4,6 +4,7 @@ const router = express.Router();
 
 import * as api from '../api';
 import * as env from '../env';
+import * as models from '../models';
 
 router.get('/', async (req, res, next) => {
   try {
@@ -28,7 +29,8 @@ router.get('/:id', async (req, res, next) => {
       { params: { depth: 2, limit: 10 } },
       api.registerNewTokens(res)
     );
-    res.json({ data: commentRes.data });
+    const post = await models.getFirstPost(commentRes.data[0]);
+    res.json({ data: { post } });
   } catch (err) {
     next(err);
   }

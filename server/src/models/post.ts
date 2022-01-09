@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import { Award, getAwards } from './award';
 import { Subreddit } from './subreddit';
 import { Thing } from './thing';
@@ -8,6 +10,7 @@ export interface Post {
   author: User;
   awards: Award[];
   commentCount: number;
+  contentType?: string;
   html?: string;
   subreddit: Subreddit;
   timestamp: Date;
@@ -15,7 +18,7 @@ export interface Post {
   url?: string;
 }
 
-export function getFirstPost(listing: Thing): Post {
+export async function getFirstPost(listing: Thing): Promise<Post> {
   if (typeof listing == 'string') {
     throw new Error(`Expected post listing, but got ${listing}`);
   }
@@ -24,6 +27,8 @@ export function getFirstPost(listing: Thing): Post {
     throw new Error(`Expected post, but got ${firstThing}`);
   }
   const data = firstThing.data;
+  const url = data.is_self ? null : data.url;
+  const contentType = await getContentType(url);
   return {
     name: data.name,
     author: {
@@ -32,6 +37,7 @@ export function getFirstPost(listing: Thing): Post {
     },
     awards: getAwards(data.all_awardings),
     commentCount: data.num_comments,
+    contentType: contentType,
     html: data.selfText_html,
     subreddit: {
       name: data.subreddit,
@@ -39,6 +45,15 @@ export function getFirstPost(listing: Thing): Post {
     },
     timestamp: new Date(data.created_utc * 1000),
     title: data.title,
-    url: data.is_self ? null : data.url
+    url: url
   };
+}
+
+async function getContentType(url: string): Promise<string | undefined> {
+  let contentType: string | undefined;
+  if (url) {
+    const res = await axios.head(url);
+    contentType = res.headers['content-type'];
+  }
+  return contentType;
 }
