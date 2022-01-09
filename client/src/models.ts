@@ -24,6 +24,7 @@ export interface MoreComments {
   id: string;
   ids: string[];
   count: number;
+  parentName: string;
 }
 
 export interface Post {

@@ -34,12 +34,30 @@ class App extends React.Component {
         this.setState({ data: json.data });
       }
     } catch (err) {
-      this.handleError(err);
+      this.setState({ error: err });
     }
   }
 
-  handleError(err: any) {
-    this.setState({ error: err });
+  async handleMoreClick(parentName: string, commentIDs: string[]) {
+    try {
+      if (!this.state.data) {
+        throw new Error('Unexpectedly missing post and comment data');
+      }
+      const params = {
+        children: commentIDs.slice(0, 10).join(',')
+      };
+      const queryString = new URLSearchParams(params).toString();
+      const url = `/posts/${this.state.data.post.name}/morecomments?${queryString}`;
+      const res = await fetch(url);
+      const json = await res.json();
+      if (json.error) {
+        throw json.error;
+      } else if (json.data) {
+        console.log(parentName, json.data);
+      }
+    } catch (err) {
+      this.setState({ error: err });
+    }
   }
 
   async handleNext(postName: string) {
@@ -53,7 +71,7 @@ class App extends React.Component {
         this.setState({ data: json.data });
       }
     } catch (err) {
-      this.handleError(err);
+      this.setState({ error: err });
     }
   }
 
@@ -71,11 +89,7 @@ class App extends React.Component {
           <NavBar onClick={() => this.handleNext(post.name)} />
           <div className='main'>
             <Post data={post} />
-            <Replies
-              data={replies}
-              postName={post.name}
-              onError={this.handleError.bind(this)}
-            />
+            <Replies data={replies} onMoreClick={this.handleMoreClick.bind(this)} />
           </div>
         </div>
       );

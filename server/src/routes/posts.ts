@@ -37,6 +37,29 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+router.get('/:name/morecomments', async (req, res, next) => {
+  try {
+    const moreRes = await api.get(
+      '/api/morechildren',
+      req.cookies[env.get('COOKIE_NAME')],
+      {
+        params: {
+          api_type: 'json',
+          children: req.query.children,
+          depth: 2,
+          limit_children: true,
+          link_id: req.params.name
+        }
+      },
+      api.registerNewTokens(res)
+    );
+    const newReplies = models.getReplies(moreRes.data.json.data.things);
+    res.json({ data: newReplies });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/:name/next', async (req, res, next) => {
   try {
     const popularRes = await api.get(

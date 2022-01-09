@@ -74,6 +74,10 @@ describe('GET /posts/:id', () => {
   it('responds successfully with data object if cookie is set');
 });
 
+describe('GET /posts/:name/morecomments', () => {
+  it('responds successfully with data object if cookie is set');
+});
+
 describe('GET /posts/:name/next', () => {
   it('redirects to some /post/:id if cookie is set');
 });

@@ -19,6 +19,8 @@ You should then be able to start the server by running `npm start`.
 * `GET /` - Returns HTML code for the home page.
 * `GET /posts` - Gets the comment tree for the top post in /r/popular/hot, as well as the contents of the post itself.
 * `GET /posts/:id` - Gets the comment tree and post contents for the post with the specified ID36 (unique ID in base 36).
+* `GET /posts/:name/morecomments` - Retrieves additional comments omitted from a base comment tree for the post with the specified [fullname](https://www.reddit.com/dev/api/#fullnames).
+  * `children` - Comma-delimited list of comment ID36s that should be fetched.
 * `GET /posts/:name/next` - Gets the comment tree and post contents for the next post after the one with the specified [fullname](https://www.reddit.com/dev/api/#fullnames).
 * `GET /redirect` - Used as the OAuth2 redirect URI. Fetches a Reddit access token and refresh token, saves both in a browser cookie, and redirects to `/`.
   * `code` - Authorization code that can be used to fetch tokens.

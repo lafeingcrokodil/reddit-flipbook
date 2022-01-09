@@ -6,8 +6,7 @@ import * as models from '../models';
 
 interface Props {
   data: models.Replies;
-  postName: string;
-  onError: (err: any) => void;
+  onMoreClick: (parentName: string, commentIDs: string[]) => void;
 }
 
 class Replies extends React.Component<Props> {
@@ -19,16 +18,13 @@ class Replies extends React.Component<Props> {
   }
 
   render() {
-    if (this.state.postName != this.props.postName) {
-      this.setState(this.props);
-    }
     const html = this.state.data.map(reply => {
       switch (reply.kind) {
       case 'Comment': {
         return <Comment
           key={reply.id}
           data={reply as models.Comment}
-          onError={this.props.onError}
+          onMoreClick={this.props.onMoreClick}
         />;
         break;
       }
@@ -38,6 +34,7 @@ class Replies extends React.Component<Props> {
         return <MoreComments
           key={more.id}
           data={more}
+          onMoreClick={this.props.onMoreClick}
         />;
         break;
       }

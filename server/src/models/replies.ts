@@ -20,6 +20,7 @@ export interface MoreComments {
   id: string;
   ids: string[];
   count: number;
+  parentName: string;
 }
 
 export function getInitialReplies(thing: Thing): Replies {
@@ -33,7 +34,7 @@ export function getInitialReplies(thing: Thing): Replies {
   return getReplies(thing.data.children);
 }
 
-function getReplies(things: Thing[]): Replies {
+export function getReplies(things: Thing[]): Replies {
   const replies = [] as Replies;
   for (const thing of things) {
     if (typeof thing == 'string') {
@@ -83,6 +84,7 @@ function getMoreComments(thing: Thing): MoreComments {
     kind: 'MoreComments',
     id: thing.data.id,
     ids: thing.data.children as string[],
-    count: thing.data.count
+    count: thing.data.count,
+    parentName: thing.data.parent_id
   };
 }

@@ -9,7 +9,7 @@ import { sanitize, strip } from '../html';
 
 interface Props {
   data: models.Comment;
-  onError: (err: any) => void;
+  onMoreClick: (parentName: string, commentIDs: string[]) => void;
 }
 
 class Comment extends React.Component<Props> {
@@ -54,11 +54,7 @@ class Comment extends React.Component<Props> {
         <div className='comment-content'>
           {data.awards.length > 0 && <Awards data={data.awards}/>}
           <div dangerouslySetInnerHTML={{__html: sanitize(data.html)}}></div>
-          <Replies
-            data={data.replies}
-            postName={this.props.data.postName}
-            onError={this.props.onError}
-          />
+          <Replies data={data.replies} onMoreClick={this.props.onMoreClick} />
         </div>
       </div>
     );
