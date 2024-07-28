@@ -9,8 +9,19 @@ I imagine that there could be other existing desktop apps for browsing Reddit ou
 
 Assuming that you already have Node.js installed:
 
-1. Create a `.env` file in the `server` directory, using `server/.env-template` as a guide.
-2. Run `npm install`.
+1. Build the client code.
+    ```sh
+    cd client
+    npm install
+    npm run build
+    ```
+1. Set up the server.
+    ```sh
+    cd ../server
+    npm install
+    cp .env-template .env
+    ```
+1. Fill in any missing values in `server/.env`.
 
 You should then be able to start the server by running `npm start`.
 
